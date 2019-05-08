@@ -20,6 +20,7 @@ default: &default
   # For details on connection pooling, see Rails configuration guide
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: <%= ENV.fetch("RAILS_MAX_THREADS") { 5 } %>
+  username: postgres
 
 development:
   <<: *default
@@ -81,5 +82,5 @@ test:
 production:
   <<: *default
   database: rails-order_list-api_production
-  username: rails-order_list-api
+  username: postgres
   password: <%= ENV['RAILS-ORDER_LIST-API_DATABASE_PASSWORD'] %>
