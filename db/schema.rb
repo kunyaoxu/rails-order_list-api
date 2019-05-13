@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 2019_05_13_082319) do
+ActiveRecord::Schema.define(version: 2019_05_13_110101) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -40,4 +40,6 @@ ActiveRecord::Schema.define(version: 2019_05_13_082319) do
     t.integer "price", default: 0, null: false
   end
 
+  add_foreign_key "order_details", "orders"
+  add_foreign_key "order_details", "products"
 end
