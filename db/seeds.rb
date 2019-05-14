@@ -10,7 +10,7 @@
   Product.create(
     name: "item no.#{x + 1}",
     sold: 0,
-    inventory: 999,
+    inventory: 10 * x + 2,
     price: 100 * x + 50,
     description: "item no.#{x + 1} description ..."
   )
