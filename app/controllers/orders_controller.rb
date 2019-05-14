@@ -22,22 +22,27 @@ class OrdersController < ApplicationController
     #   "email": "test@test.com"
     # }
 
+    ActiveRecord::Base.transaction do
+      @order = Order.new(
+        name: params[:name],
+        address: params[:address],
+        email: params[:email]
+      )
 
-    @order = Order.new(
-      name: params[:name],
-      address: params[:address],
-      email: params[:email]
-    )
+      params[:product_ids].each { |id|
+        currentProduct = Product.find(id)
+        currentProduct[:sold] += 1
+        currentProduct[:inventory] -= 1
+        currentProduct.save!
+        newOrderDetail = OrderDetail.new(:product_id => id)
+        @order.order_details.push(newOrderDetail)
+      }
 
-    params[:product_ids].each { |id|
-      newOrderDetail = OrderDetail.new(:product_id => id)
-      @order.order_details.push(newOrderDetail)
-    }
-
-    if @order.save
-      render json: @order, status: :created
-    else
-      render json: @order.errors, status: :unprocessable_entity
+      if @order.save!
+        render json: @order, status: :created
+      else
+        render json: @order.errors, status: :unprocessable_entity
+      end
     end
   end
 
