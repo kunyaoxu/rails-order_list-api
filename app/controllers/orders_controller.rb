@@ -30,7 +30,7 @@ class OrdersController < ApplicationController
       )
 
       params[:product_ids].each { |id|
-        currentProduct = Product.find(id)
+        currentProduct = Product.find(id).lock!
         currentProduct[:sold] += 1
         currentProduct[:inventory] -= 1
         currentProduct.save!
